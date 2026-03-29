@@ -1,0 +1,35 @@
+use_default_settings: true
+
+server:
+  secret_key: "adb735b050b55cace6852ebdc2a6f86f2595fc58a4b2d3bebb5d9ee2e2066115"
+  base_url: "http://searxng:8080/"
+  bind_address: "0.0.0.0"
+  limiter: false
+  public_instance: false
+
+search:
+  safe_search: 0
+  autocomplete: "duckduckgo"
+  formats:
+    - html
+    - json
+
+engines:
+  - name: google
+    disabled: true
+  - name: google news
+    disabled: true
+  - name: google images
+    disabled: true
+  - name: google videos
+    disabled: true
+  - name: duckduckgo
+    disabled: false
+  - name: brave
+    disabled: false
+  - name: bing
+    disabled: false
+
+ui:
+  default_theme: simple
+  default_locale: en

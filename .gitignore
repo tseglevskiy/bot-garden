@@ -1,0 +1,24 @@
+# Secrets
+.env
+
+# Per-machine runtime data (recreated by bootstrap.sh)
+docker_config/
+data/
+
+# Cloned OpenClaw repo (clone separately, see README)
+openclaw/
+
+# Temporary model filter outputs
+openrouter_models.txt
+openrouter_models_full.tsv
+models_kept.tsv
+models_removed.tsv
+
+# Runtime data inside workspace (created by gateway, not seed files)
+docker_workspace/.openclaw/
+docker_workspace/.git/
+docker_workspace/memory/
+docker_workspace/MEMORY.md
+
+# OS
+.DS_Store
