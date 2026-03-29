@@ -26,8 +26,8 @@ Automated setup for [OpenClaw](https://github.com/openclaw/openclaw) — a self-
 # 1. Clone this repo
 git clone <this-repo> openclaw-bootstrap && cd openclaw-bootstrap
 
-# 2. Clone OpenClaw source
-git clone https://github.com/openclaw/openclaw.git openclaw
+# 2. Clone OpenClaw source (from main branch)
+git clone git@github.com:openclaw/openclaw.git openclaw
 
 # 3. Copy env template and fill in keys
 cp .env.example .env
@@ -35,6 +35,18 @@ cp .env.example .env
 
 # 4. Run bootstrap
 ./bootstrap.sh
+```
+
+### Updating OpenClaw
+
+```bash
+cd openclaw && git pull && cd ..
+# Rebuild image
+docker build --build-arg "OPENCLAW_DOCKER_APT_PACKAGES=python3 python3-pip jq make unzip ripgrep" \
+  -t openclaw:local -f openclaw/Dockerfile openclaw
+# Restart gateway
+set -a; source .env; set +a
+docker compose -f docker-compose.yml restart openclaw-gateway
 ```
 
 ## Deployment Profiles
@@ -122,13 +134,13 @@ Local metasearch engine aggregating DuckDuckGo + Brave + Bing. Agent uses `web_f
 set -a; source .env; set +a
 
 # View logs
-docker compose -f openclaw/docker-compose.yml logs -f openclaw-gateway
+docker compose -f docker-compose.yml logs -f openclaw-gateway
 
 # Restart gateway (after manual config changes)
-docker compose -f openclaw/docker-compose.yml restart openclaw-gateway
+docker compose -f docker-compose.yml restart openclaw-gateway
 
 # Run CLI commands
-docker compose -f openclaw/docker-compose.yml run --rm openclaw-cli <command>
+docker compose -f docker-compose.yml run --rm openclaw-cli <command>
 
 # Examples:
 # ... config get agents.defaults.model
@@ -139,7 +151,7 @@ docker compose -f openclaw/docker-compose.yml run --rm openclaw-cli <command>
 # ... security audit
 
 # Stop everything
-docker compose -f openclaw/docker-compose.yml down
+docker compose -f docker-compose.yml down
 
 # Rebuild image (after openclaw/ repo update)
 docker build --build-arg "OPENCLAW_DOCKER_APT_PACKAGES=python3 python3-pip jq make unzip ripgrep" \
@@ -148,9 +160,9 @@ docker build --build-arg "OPENCLAW_DOCKER_APT_PACKAGES=python3 python3-pip jq ma
 # Refresh model allowlist
 ./filter_models.sh
 # Review models_kept.tsv and models_removed.tsv, then:
-docker compose -f openclaw/docker-compose.yml run --rm openclaw-cli \
+docker compose -f docker-compose.yml run --rm openclaw-cli \
   config set agents.defaults.models "$(jq -c '.' models_allowlist.json)" --strict-json
-docker compose -f openclaw/docker-compose.yml restart openclaw-gateway
+docker compose -f docker-compose.yml restart openclaw-gateway
 ```
 
 ## Chat Commands

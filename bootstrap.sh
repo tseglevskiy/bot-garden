@@ -82,7 +82,7 @@ mkdir -p "$OPENCLAW_WORKSPACE_DIR"
 # Pull or build image
 # ---------------------------------------------------------------------------
 
-COMPOSE_FILE="$(dirname "$0")/openclaw/docker-compose.yml"
+COMPOSE_FILE="$(dirname "$0")/docker-compose.yml"
 
 if [[ "$OPENCLAW_IMAGE" == "openclaw:local" ]]; then
   echo "==> Building Docker image: $OPENCLAW_IMAGE"
